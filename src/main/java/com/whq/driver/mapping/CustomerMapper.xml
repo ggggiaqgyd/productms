@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whq.driver.dao.CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.whq.driver.model.Customer" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="custom_name" property="customName" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, custom_name, telephone, level
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.whq.driver.model.Customer" >
+    insert into customer (id, custom_name, telephone, 
+      level)
+    values (#{id,jdbcType=INTEGER}, #{customName,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.whq.driver.model.Customer" >
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customName != null" >
+        custom_name,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="customName != null" >
+        #{customName,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whq.driver.model.Customer" >
+    update customer
+    <set >
+      <if test="customName != null" >
+        custom_name = #{customName,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whq.driver.model.Customer" >
+    update customer
+    set custom_name = #{customName,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getCustomerListTotal" parameterType="com.whq.driver.model.Customer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from customer
+    where 1=1 and id!=1
+    <if test="properties.likeField != null and properties.likeField !='' " >
+    and (custom_name  LIKE CONCAT(CONCAT('%', #{properties.likeField,jdbcType=VARCHAR}), '%')
+      or telephone  LIKE CONCAT(CONCAT('%', #{properties.likeField,jdbcType=VARCHAR}), '%'))
+    </if>
+    <if test="properties.start!=null and properties.pageSize!=null">
+      limit #{properties.start},#{properties.pageSize}
+    </if>
+  </select>
+  <select id="selectByTelephone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from customer
+    where telephone =  #{telephone,jdbcType=VARCHAR}
+  </select>
+  <select id="CustomerTotalCount" resultType="java.lang.Integer" parameterType="com.whq.driver.model.Customer">
+      select
+      COUNT(*)
+      from customer
+      where 1=1 and id!=1
+      <if test="properties.likeField != null and properties.likeField !='' " >
+      and (custom_name  LIKE CONCAT(CONCAT('%', #{properties.likeField,jdbcType=VARCHAR}), '%')
+      or telephone  LIKE CONCAT(CONCAT('%', #{properties.likeField,jdbcType=VARCHAR}), '%'))
+     </if>
+  </select>
+</mapper>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whq.driver.dao.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.whq.driver.model.Menu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="text" jdbcType="VARCHAR" property="text" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
+    <result column="is_leaf" jdbcType="INTEGER" property="isLeaf" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, text, parent_id, url, order_by, is_leaf
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from MENU
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from MENU
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.whq.driver.model.Menu">
+    insert into MENU (id, text, parent_id, 
+      url, order_by, is_leaf
+      )
+    values (#{id,jdbcType=INTEGER}, #{text,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, #{isLeaf,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.whq.driver.model.Menu">
+    insert into MENU
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="orderBy != null">
+        order_by,
+      </if>
+      <if test="isLeaf != null">
+        is_leaf,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null">
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="isLeaf != null">
+        #{isLeaf,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whq.driver.model.Menu">
+    update MENU
+    <set>
+      <if test="text != null">
+        text = #{text,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null">
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="isLeaf != null">
+        is_leaf = #{isLeaf,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whq.driver.model.Menu">
+    update MENU
+    set text = #{text,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      url = #{url,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      is_leaf = #{isLeaf,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="getMenuListByMenu" parameterType="com.whq.driver.model.Menu" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from MENU
+    <include refid="Base_Where_List" />
+    order by order_by
+    <if test="properties.start!=null and properties.pageSize!=null">
+      limit #{properties.start},#{properties.pageSize}
+    </if>
+
+  </select>
+  <select id="getCountByMenu" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select COUNT(*)
+    from MENU
+    <include refid="Base_Where_List" />
+  </select>
+  <sql id="Base_Where_List">
+    <where>
+      <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="text != null">
+        and text = #{text,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId != null">
+        and parent_id = #{parentId,jdbcType=INTEGER}
+      </if>
+      <if test="url != null">
+        and url = #{url,jdbcType=VARCHAR}
+      </if>
+      <if test="isLeaf != null">
+        and is_leaf = #{isLeaf,jdbcType=INTEGER}
+      </if>
+      <if test="properties.ids!=null and properties.ids.size()!=0">
+        and id in
+        <foreach item="item" index="index" collection="properties.ids" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+    </where>
+  </sql>
+</mapper>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whq.driver.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.whq.driver.model.Product" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="prod_name" property="prodName" jdbcType="VARCHAR" />
+    <result column="prod_status" property="prodStatus" jdbcType="TINYINT" />
+    <result column="prod_base_price" property="prodBasePrice" jdbcType="DECIMAL" />
+    <result column="prod_store" property="prodStore" jdbcType="INTEGER" />
+    <result column="prod_code" property="prodCode" jdbcType="VARCHAR" />
+    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="prod_sale_price" property="prodSalePrice" jdbcType="DECIMAL" />
+    <result column="prod_sale_price_type" property="prodSalePriceType" jdbcType="TINYINT" />
+    <result column="prod_type" property="prodType" jdbcType="INTEGER" />
+    <result column="oder_id" property="oderId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, prod_name, prod_status, prod_base_price, prod_store, prod_code, img_url, prod_sale_price, 
+    prod_sale_price_type, prod_type, oder_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.whq.driver.model.Product" >
+    insert into product (prod_name, prod_status,
+      prod_base_price, prod_store, prod_code, 
+      img_url, prod_sale_price, prod_sale_price_type, 
+      prod_type, oder_id)
+    values (#{prodName,jdbcType=VARCHAR}, #{prodStatus,jdbcType=TINYINT},
+      #{prodBasePrice,jdbcType=DECIMAL}, #{prodStore,jdbcType=INTEGER}, #{prodCode,jdbcType=VARCHAR}, 
+      #{imgUrl,jdbcType=VARCHAR}, #{prodSalePrice,jdbcType=DECIMAL}, #{prodSalePriceType,jdbcType=TINYINT}, 
+      #{prodType,jdbcType=INTEGER}, #{oderId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.whq.driver.model.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="prodName != null" >
+        prod_name,
+      </if>
+      <if test="prodStatus != null" >
+        prod_status,
+      </if>
+      <if test="prodBasePrice != null" >
+        prod_base_price,
+      </if>
+      <if test="prodStore != null" >
+        prod_store,
+      </if>
+      <if test="prodCode != null" >
+        prod_code,
+      </if>
+      <if test="imgUrl != null" >
+        img_url,
+      </if>
+      <if test="prodSalePrice != null" >
+        prod_sale_price,
+      </if>
+      <if test="prodSalePriceType != null" >
+        prod_sale_price_type,
+      </if>
+      <if test="prodType != null" >
+        prod_type,
+      </if>
+      <if test="oderId != null" >
+        oder_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="prodName != null" >
+        #{prodName,jdbcType=VARCHAR},
+      </if>
+      <if test="prodStatus != null" >
+        #{prodStatus,jdbcType=TINYINT},
+      </if>
+      <if test="prodBasePrice != null" >
+        #{prodBasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prodStore != null" >
+        #{prodStore,jdbcType=INTEGER},
+      </if>
+      <if test="prodCode != null" >
+        #{prodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="prodSalePrice != null" >
+        #{prodSalePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prodSalePriceType != null" >
+        #{prodSalePriceType,jdbcType=TINYINT},
+      </if>
+      <if test="prodType != null" >
+        #{prodType,jdbcType=INTEGER},
+      </if>
+      <if test="oderId != null" >
+        #{oderId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whq.driver.model.Product" >
+    update product
+    <set >
+      <if test="prodName != null" >
+        prod_name = #{prodName,jdbcType=VARCHAR},
+      </if>
+      <if test="prodStatus != null" >
+        prod_status = #{prodStatus,jdbcType=TINYINT},
+      </if>
+      <if test="prodBasePrice != null" >
+        prod_base_price = #{prodBasePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prodStore != null" >
+        prod_store = #{prodStore,jdbcType=INTEGER},
+      </if>
+      <if test="prodCode != null" >
+        prod_code = #{prodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        img_url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="prodSalePrice != null" >
+        prod_sale_price = #{prodSalePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="prodSalePriceType != null" >
+        prod_sale_price_type = #{prodSalePriceType,jdbcType=TINYINT},
+      </if>
+      <if test="prodType != null" >
+        prod_type = #{prodType,jdbcType=INTEGER},
+      </if>
+      <if test="oderId != null" >
+        oder_id = #{oderId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whq.driver.model.Product" >
+    update product
+    set prod_name = #{prodName,jdbcType=VARCHAR},
+      prod_status = #{prodStatus,jdbcType=TINYINT},
+      prod_base_price = #{prodBasePrice,jdbcType=DECIMAL},
+      prod_store = #{prodStore,jdbcType=INTEGER},
+      prod_code = #{prodCode,jdbcType=VARCHAR},
+      img_url = #{imgUrl,jdbcType=VARCHAR},
+      prod_sale_price = #{prodSalePrice,jdbcType=DECIMAL},
+      prod_sale_price_type = #{prodSalePriceType,jdbcType=TINYINT},
+      prod_type = #{prodType,jdbcType=INTEGER},
+      oder_id = #{oderId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectProductByRecord" parameterType="com.whq.driver.model.Product" resultMap="BaseResultMap" >
+    select *
+    from product
+    <include refid="Base_Where_List" />
+    order by case when ifnull(oder_id,'')='' then 0 else 1 end desc, oder_id asc
+
+    <if test="properties.start!=null and properties.pageSize!=null">
+      limit #{properties.start},#{properties.pageSize}
+    </if>
+  </select>
+  <select id="getCountByProduct" resultType="java.lang.Integer"  parameterType="com.whq.driver.model.Product">
+    select count(id)
+    from product product
+    <include refid="Base_Where_List" />
+  </select>
+  <select id="selectProductByProductName" resultType="com.whq.driver.model.Product"  parameterType="java.lang.String">
+    select * from product where prod_name = #{prodName,jdbcType=VARCHAR}
+  </select>
+  <update id="deleteByPrimaryKeyUnable" parameterType="java.lang.Integer">
+    update product set prod_status = 0 where   id = #{id,jdbcType=INTEGER}
+  </update>
+  <sql id="Base_Where_List">
+    <where>
+      <if test="prodName != null and prodName !='' " >
+        and prod_name  LIKE CONCAT(CONCAT('%', #{prodName,jdbcType=VARCHAR}), '%')
+      </if>
+      <if test="prodStatus != null" >
+        and prod_status = #{prodStatus,jdbcType=TINYINT}
+      </if>
+      <if test="prodBasePrice != null" >
+        and prod_base_price = #{prodBasePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="prodStore != null" >
+        and prod_store = #{prodStore,jdbcType=INTEGER}
+      </if>
+      <if test="prodCode != null  and prodCode!='' " >
+        and prod_code = #{prodCode,jdbcType=VARCHAR}
+      </if>
+      <if test="imgUrl != null and imgUrl!=''" >
+        and img_url = #{imgUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="prodSalePrice != null" >
+        and prod_sale_price = #{prodSalePrice,jdbcType=DECIMAL}
+      </if>
+      <if test="prodSalePriceType != null" >
+        and prod_sale_price_type = #{prodSalePriceType,jdbcType=TINYINT}
+      </if>
+      <if test="prodType != null" >
+        and prod_type = #{prodType,jdbcType=INTEGER}
+      </if>
+      <if test="oderId != null" >
+        and oder_id = #{oderId,jdbcType=INTEGER}
+      </if>
+      <if test="properties.prodStoreDown != null" >
+        and prod_store  &lt; #{properties.prodStoreDown,jdbcType=INTEGER}
+      </if>
+      <if test="properties.prodStoreUp != null" >
+        and prod_store &gt; #{properties.prodStoreUp,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+</mapper>
